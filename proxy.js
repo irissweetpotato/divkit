@@ -115,6 +115,13 @@ async function handleAppRequest(req, res) {
   if (domainConfig.server_api_key) {
     forwardHeaders["x-api-key"] = domainConfig.server_api_key;
   }
+  // Forward original user headers so server backend sees real UA/language
+  if (req.headers["user-agent"]) {
+    forwardHeaders["user-agent"] = req.headers["user-agent"];
+  }
+  if (req.headers["accept-language"]) {
+    forwardHeaders["accept-language"] = req.headers["accept-language"];
+  }
 
   const forwardDetails = {
     url: domainConfig.server_backend_url,
