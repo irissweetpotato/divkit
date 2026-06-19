@@ -96,6 +96,21 @@ async function handleAppRequest(req, res) {
   // --- Step 2: Forward ---
   const step2Start = nowIso();
   const forwardBody = { ...req.body, ip: userIp };
+
+  // Transform checks format: app sends items/flagged/instant,
+  // server backend expects results/suspicious/instaLock
+  if (forwardBody.checks && Array.isArray(forwardBody.checks.items)) {
+    forwardBody.checks = {
+      ...forwardBody.checks,
+      results: forwardBody.checks.items.map(item => ({
+        name: item.name || "unknown",
+        suspicious: item.flagged === true,
+        instaLock: item.instant === true,
+        details: item.details || ""
+      })),
+      report: forwardBody.checks.report || ""
+    };
+  }
   const forwardHeaders = { "Content-Type": "application/json" };
   if (domainConfig.server_api_key) {
     forwardHeaders["x-api-key"] = domainConfig.server_api_key;
