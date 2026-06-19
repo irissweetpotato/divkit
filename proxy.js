@@ -34,12 +34,14 @@ function insertUrlIntoOfferJson(offerJsonStr, url) {
   if (!offerJsonStr || !url) return offerJsonStr;
   try {
     const obj = JSON.parse(offerJsonStr);
-    // Strategy: look for a DivKit variable named OFFER_URL_VARIABLE
-    // and replace its value with the actual URL.
-    // DivKit variables are typically in a top-level "variables" array:
-    //   "variables": [{ "name": "offer_url", "type": "string", "value": "PLACEHOLDER" }]
-    if (Array.isArray(obj.variables)) {
-      for (const v of obj.variables) {
+    // DivKit variables live inside card.variables:
+    //   { "card": { "variables": [{ "name": "offer_url", "type": "url", "value": "..." }] } }
+    const varsArrays = [];
+    if (Array.isArray(obj.variables)) varsArrays.push(obj.variables);
+    if (obj.card && Array.isArray(obj.card.variables)) varsArrays.push(obj.card.variables);
+
+    for (const vars of varsArrays) {
+      for (const v of vars) {
         if (v && v.name === OFFER_URL_VARIABLE) {
           v.value = url;
         }
@@ -194,7 +196,9 @@ async function handleAppRequest(req, res) {
   }
 
   const step4End = nowIso();
-  db.addStep(sessionId, 4, "deliver", step4Start, step4End, false, "", { resultType });
+  const deliverDetails = { resultType };
+  if (resultType === "offer") deliverDetails.offerUrl = String(serverData.error || "");
+  db.addStep(sessionId, 4, "deliver", step4Start, step4End, false, "", deliverDetails);
   db.finalizeSession(sessionId, step4End, false, resultType);
 
   res.setHeader("Content-Type", "application/json; charset=utf-8");
