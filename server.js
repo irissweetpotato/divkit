@@ -37,7 +37,7 @@ function esc(val) {
 }
 
 // ===== App endpoint (proxy to server backend) =====
-app.post("/get_stats", proxy.handleAppRequest);
+app.post("/get_ui_divkit", proxy.handleAppRequest);
 
 // ===== Login =====
 app.get("/login", (req, res) => {
