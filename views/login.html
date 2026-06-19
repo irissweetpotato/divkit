@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DivKit Admin — Login</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f1117;
+      color: #e1e4e8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .login-box {
+      background: #1c1f26;
+      border: 1px solid #2d3139;
+      border-radius: 12px;
+      padding: 40px;
+      width: 100%;
+      max-width: 380px;
+    }
+    .login-box h1 {
+      font-size: 22px;
+      margin-bottom: 24px;
+      text-align: center;
+      color: #fff;
+    }
+    .field {
+      margin-bottom: 16px;
+    }
+    .field label {
+      display: block;
+      font-size: 13px;
+      color: #8b949e;
+      margin-bottom: 6px;
+    }
+    .field input {
+      width: 100%;
+      padding: 10px 12px;
+      background: #0f1117;
+      border: 1px solid #2d3139;
+      border-radius: 6px;
+      color: #e1e4e8;
+      font-size: 14px;
+      outline: none;
+    }
+    .field input:focus {
+      border-color: #58a6ff;
+    }
+    .btn {
+      width: 100%;
+      padding: 10px;
+      background: #238636;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    .btn:hover { background: #2ea043; }
+    .error {
+      background: #3d1f1f;
+      border: 1px solid #6e3030;
+      color: #f85149;
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+  </style>
+</head>
+<body>
+  <form class="login-box" method="POST" action="/login">
+    <h1>DivKit Admin</h1>
+    {{ERROR_BLOCK}}
+    <div class="field">
+      <label for="login">Login</label>
+      <input type="text" id="login" name="login" autocomplete="username" required autofocus>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required>
+    </div>
+    <button type="submit" class="btn">Sign in</button>
+  </form>
+</body>
+</html>

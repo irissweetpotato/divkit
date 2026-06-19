@@ -1,0 +1,16 @@
+{
+  "name": "divkit-server",
+  "version": "1.0.0",
+  "description": "DivKit middleware backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.13.5",
+    "better-sqlite3": "^11.9.1",
+    "express": "^5.2.1",
+    "multer": "^1.4.5-lts.2"
+  }
+}
